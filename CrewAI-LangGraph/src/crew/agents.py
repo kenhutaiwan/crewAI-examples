@@ -1,10 +1,23 @@
 from langchain_community.agent_toolkits import GmailToolkit
 from langchain_community.tools.gmail.get_thread import GmailGetThread
 from langchain_community.tools.tavily_search import TavilySearchResults
-
+from langchain_openai import AzureChatOpenAI
+import os
+from dotenv import load_dotenv
 from textwrap import dedent
 from crewai import Agent
 from .tools import CreateDraftTool
+
+＃ 參考https://github.com/joaomdmoura/crewAI-examples/blob/main/azure_model/main.py
+load_dotenv()
+
+default_llm = AzureChatOpenAI(
+    openai_api_version=os.environ.get("AZURE_OPENAI_VERSION", "2023-07-01-preview"),
+    azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt35"),
+    azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT", "https://<your-endpoint>.openai.azure.com/"),
+    api_key=os.environ.get("AZURE_OPENAI_KEY")
+)
+
 
 class EmailFilterAgents():
 	def __init__(self):
@@ -20,7 +33,8 @@ class EmailFilterAgents():
 				irrelevant content. Your expertise lies in identifying key patterns and markers that
 				signify the importance of an email."""),
 			verbose=True,
-			allow_delegation=False
+			allow_delegation=False,
+            llm=default_llm
 		)
 
 	def email_action_agent(self):
@@ -38,6 +52,7 @@ class EmailFilterAgents():
 			],
 			verbose=True,
 			allow_delegation=False,
+			llm=default_llm
 		)
 
 	def email_response_writer(self):
@@ -55,4 +70,5 @@ class EmailFilterAgents():
 			],
 			verbose=True,
 			allow_delegation=False,
+			llm=default_llm
 		)
