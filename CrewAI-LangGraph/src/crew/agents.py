@@ -8,13 +8,13 @@ from textwrap import dedent
 from crewai import Agent
 from .tools import CreateDraftTool
 
-＃ 參考https://github.com/joaomdmoura/crewAI-examples/blob/main/azure_model/main.py
+# 參考https://github.com/joaomdmoura/crewAI-examples/blob/main/azure_model/main.py
 load_dotenv()
 
 default_llm = AzureChatOpenAI(
-    openai_api_version=os.environ.get("AZURE_OPENAI_VERSION", "2023-07-01-preview"),
-    azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt35"),
-    azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT", "https://<your-endpoint>.openai.azure.com/"),
+    openai_api_version=os.environ.get("AZURE_OPENAI_VERSION", "2024-02-01"),
+    azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4-32k"),
+    azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT", "https://smartq-las.openai.azure.com/"),
     api_key=os.environ.get("AZURE_OPENAI_KEY")
 )
 
